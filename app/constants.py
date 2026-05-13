@@ -1,1 +1,7 @@
-"""Application constants and configuration values."""
+SUPPORTED_SOURCES = [
+    "whatsapp",
+    "booking_com",
+    "airbnb",
+    "instagram",
+    "direct"
+]

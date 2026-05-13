@@ -1,3 +1,3 @@
 # Nistula Technical Assessment
 
-Project description goes here.
+AI-powered unified guest messaging backend built with FastAPI.

@@ -1,1 +1,1 @@
--- Database schema
+-- PostgreSQL schema for unified messaging platform
