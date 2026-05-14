@@ -1,1 +1,55 @@
-[]
+{
+  "availability_inquiry": {
+    "source": "whatsapp",
+    "guest_name": "Rahul Sharma",
+    "message": "Is the villa available from April 20 to 24?",
+    "timestamp": "2026-05-05T10:30:00Z",
+    "booking_ref": "NIS-001",
+    "property_id": "villa-b1"
+  },
+
+  "pricing_inquiry": {
+    "source": "airbnb",
+    "guest_name": "Priya Mehta",
+    "message": "What is the price for 3 nights for 4 guests?",
+    "timestamp": "2026-05-05T11:00:00Z",
+    "booking_ref": "NIS-002",
+    "property_id": "villa-b1"
+  },
+
+  "checkin_inquiry": {
+    "source": "booking_com",
+    "guest_name": "Aman Verma",
+    "message": "Can you share the WiFi password and check-in process?",
+    "timestamp": "2026-05-05T12:00:00Z",
+    "booking_ref": "NIS-003",
+    "property_id": "villa-b1"
+  },
+
+  "special_request": {
+    "source": "instagram",
+    "guest_name": "Sneha Kapoor",
+    "message": "Can you arrange airport pickup and birthday decorations?",
+    "timestamp": "2026-05-05T13:00:00Z",
+    "booking_ref": "NIS-004",
+    "property_id": "villa-b1"
+  },
+
+  "complaint_message": {
+    "source": "whatsapp",
+    "guest_name": "Rohit Singh",
+    "message": "The AC is not working and I want a refund immediately.",
+    "timestamp": "2026-05-05T14:00:00Z",
+    "booking_ref": "NIS-005",
+    "property_id": "villa-b1"
+  },
+
+  "general_enquiry": {
+    "source": "direct",
+    "guest_name": "Neha Sharma",
+    "message": "Do you allow pets in the villa?",
+    "timestamp": "2026-05-05T15:00:00Z",
+    "booking_ref": "NIS-006",
+    "property_id": "villa-b1"
+  }
+}

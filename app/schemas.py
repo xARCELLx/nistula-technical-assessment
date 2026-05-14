@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from datetime import datetime
 from typing import Literal
 from uuid import UUID
@@ -24,8 +24,14 @@ class IncomingMessage(BaseModel):
         "direct"
     ]
     
-    guest_name: str
-    message: str
+    guest_name: str = Field(
+        min_length=2,
+        max_length=100
+    )
+    message: str = Field(
+        min_length=1,
+        max_length=2000
+    )
     timestamp: datetime
     booking_ref: str
     property_id: str

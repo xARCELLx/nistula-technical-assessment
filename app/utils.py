@@ -1,6 +1,14 @@
 import uuid
 from app.classifier import classify_query
 from app.schemas import UnifiedMessage
+from datetime import datetime
+
+
+def log_event(event_type, message):
+
+    timestamp = datetime.utcnow()
+
+    print(f"[{timestamp}] {event_type}: {message}")
 
 
 
