@@ -1,14 +1,9 @@
-from openai import OpenAI
+import httpx
 
 from app.config import CLAUDE_API_KEY
 from app.prompts import build_guest_prompt
 from app.constants import FALLBACK_RESPONSES
 from app.utils import log_event
-
-client = OpenAI(
-    base_url="https://openrouter.ai/api/v1",
-    api_key=CLAUDE_API_KEY
-)
 
 
 async def generate_ai_reply(unified_message):
@@ -17,38 +12,72 @@ async def generate_ai_reply(unified_message):
 
         prompt = build_guest_prompt(unified_message)
 
-        response = client.chat.completions.create(
-            model="deepseek/deepseek-v4-flash:free",
-            messages=[
+        headers = {
+            "x-api-key": CLAUDE_API_KEY,
+            "anthropic-version": "2023-06-01",
+            "content-type": "application/json"
+        }
+
+        payload = {
+            "model": "claude-sonnet-4-20250514",
+            "max_tokens": 200,
+            "messages": [
                 {
                     "role": "user",
                     "content": prompt
                 }
-            ],
-            max_tokens=200,
-            extra_body={
-                "reasoning": {
-                    "enabled": True
-                }
-            }
-        )
+            ]
+        }
 
-        print(response)
+        async with httpx.AsyncClient(timeout=30.0) as client:
+
+            response = await client.post(
+                "https://api.anthropic.com/v1/messages",
+                headers=headers,
+                json=payload
+            )
+
+        if response.status_code != 200:
+
+            log_event(
+                "CLAUDE_API_ERROR",
+                f"Status Code: {response.status_code}"
+            )
+
+            log_event(
+                "CLAUDE_API_RESPONSE",
+                response.text
+            )
+
+            return FALLBACK_RESPONSES.get(
+                unified_message.query_type,
+                "Our team will get back to you shortly."
+            )
+
+        response_data = response.json()
 
         if (
-            response.choices
-            and len(response.choices) > 0
-            and response.choices[0].message
+            "content" in response_data
+            and len(response_data["content"]) > 0
         ):
 
-            return response.choices[0].message.content
+            return response_data["content"][0].get(
+                "text",
+                FALLBACK_RESPONSES.get(
+                    unified_message.query_type,
+                    "Our team will get back to you shortly."
+                )
+            )
 
-        return "We are currently unable to generate a response."
+        return FALLBACK_RESPONSES.get(
+            unified_message.query_type,
+            "Our team will get back to you shortly."
+        )
 
     except Exception as error:
 
         log_event(
-            "AI_ERROR",
+            "CLAUDE_EXCEPTION",
             str(error)
         )
 

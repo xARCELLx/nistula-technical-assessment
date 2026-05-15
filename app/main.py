@@ -39,7 +39,8 @@ async def handle_message(payload: IncomingMessage):
 
         action = determine_action(
             unified_message.query_type,
-            confidence_score
+            confidence_score,
+            unified_message.message_text
         )
 
         return {
